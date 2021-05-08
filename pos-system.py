@@ -51,7 +51,7 @@ class Order:
             order_code = input("商品コードを入力してください。終了は0 >>>")
             if int(order_code) != 0:
                 item_info = self.get_item_data(order_code)
-                print("{0[0]} : 一個 {0[1]} 円 がオーダー登録されました".format(item_info))
+                print(f"{item_info[0]} : 一個 {item_info[1]} 円 がオーダー登録されました")
                 order_count = input("個数を入力してください >>>")
                 self.add_item_order(order_code, order_count)
 
@@ -64,18 +64,18 @@ class Order:
         self.sum_price=0
         self.order_number=1
         for item_order, item_count in zip(self.item_order_list, self.item_count_list):
-            self.write_to_receipt("{}品目目------------------".format(str(self.order_number)))
+            self.write_to_receipt(f"{str(self.order_number)}品目目------------------")
             # item_order_listに格納されたコードからその商品の金額取得
             order_info = self.get_item_data(item_order)
-            self.write_to_receipt("{0[0]} : 一個 {0[1]} 円".format(order_info))
+            self.write_to_receipt(f"{order_info[0]} : 一個 {order_info[1]} 円")
             # 商品ごとの合計金額算出
             order_price = order_info[1]*int(item_count)
-            self.write_to_receipt("         個数: {0} 合計金額: {1} 円".format(item_count,order_price))
+            self.write_to_receipt(f"         個数: {item_count} 合計金額: {order_price} 円")
             # 全合計金額を加算
             self.sum_price += order_price
             self.order_number += 1
         # txt = "総計：{} 円".format(str(self.sum_price))
-        print("総計：{} 円".format(str(self.sum_price)))
+        print(f"総計：{str(self.sum_price)} 円")
         # self.write_to_receipt(txt)
     
     def pay_change(self):
@@ -83,9 +83,9 @@ class Order:
         change = int(deposit) - self.sum_price
         # print("お釣り：{} 円".format(change))
         self.write_to_receipt("----------------------------------")
-        self.write_to_receipt("総計：{} 円".format(str(self.sum_price)))
-        self.write_to_receipt("お預かり額：{} 円".format(deposit))
-        self.write_to_receipt("お釣り：{} 円".format(change))
+        self.write_to_receipt(f"総計：{str(self.sum_price)} 円")
+        self.write_to_receipt(f"お預かり額：{deposit} 円")
+        self.write_to_receipt(f"お釣り：{change} 円")
 
 
 # マスタ登録
@@ -97,7 +97,7 @@ def master_from_csv(csv_path):
     print(list(df["item_name"])) # (テスト出力)リストを出すには"list"をつける
     for item_code,item_name,price in zip(list(df["item_code"]),list(df["item_name"]),list(df["price"])):
             item_master.append(Item(item_code,item_name,price))
-            print("{}({})".format(item_name,item_code))
+            print(f"{item_name}({item_code})")
     print("------- マスタ登録完了 ---------")
     return item_master
 
